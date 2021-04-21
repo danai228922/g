@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+  <title>My LIFF App</title>
+  <style>
+    body { padding: 256px }
+    button { display: none; width: 50%; padding: 16px 0; margin: 16px auto }
+  </style>
+</head>
+<body>
+  <button id="btnShare" onclick="sendShare()">Share Target Picker</button>
+  <button id="btnLogin" onclick="liff.login()">Log In</button>
+  <button id="btnLogOut" onclick="logOut()">Log Out</button>
+  <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+  <script>
+    async function sendShare() {
+      const result = await liff.shareTargetPicker([
+        {
+          "type": "flex",
+          "altText": "พระสอนศีลธรรม เดอะซีรี่ส์",
+          "contents": {
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "สำนักงานพระสอนศีลธรรม ",
+        "offsetTop": "md",
+        "offsetBottom": "xxl",
+        "offsetStart": "none",
+        "offsetEnd": "none",
+        "weight": "bold",
+        "style": "normal",
+        "position": "relative",
+        "align": "center",
+        "margin": "none",
+        "size": "lg"
+      }
+    ],
+    "backgroundColor": "#FFFFCC"
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://sv1.picz.in.th/images/2021/04/21/Aq2BdE.jpg",
+    "size": "full",
+    "aspectRatio": "20:28",
+    "aspectMode": "cover",
+    "action": {
+      "type": "uri",
+      "uri": "http://linecorp.com/"
+    },
+    "margin": "xxl",
+    "align": "center",
+    "gravity": "center",
+    "position": "relative"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "กดดาวน์โหลดฟรีที่นี้...",
+        "weight": "bold",
+        "size": "xl",
+        "margin": "xs",
+        "offsetEnd": "lg",
+        "align": "end",
+        "adjustMode": "shrink-to-fit",
+        "action": {
+          "type": "uri",
+          "label": "action",
+          "uri": "http://linecorp.com/"
+        }
+      },
+      {
+        "type": "box",
+        "layout": "baseline",
+        "margin": "xxl",
+        "contents": [
+          {
+            "type": "icon",
+            "size": "sm",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+          },
+          {
+            "type": "icon",
+            "size": "sm",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+          },
+          {
+            "type": "icon",
+            "size": "sm",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+          },
+          {
+            "type": "icon",
+            "size": "sm",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+          },
+          {
+            "type": "icon",
+            "size": "sm",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
+          }
+        ],
+        "spacing": "md",
+        "alignItems": "flex-start",
+        "cornerRadius": "none",
+        "borderWidth": "bold",
+        "position": "absolute",
+        "offsetTop": "xs",
+        "offsetBottom": "xxl",
+        "offsetEnd": "md",
+        "offsetStart": "md",
+        "paddingAll": "none",
+        "paddingTop": "none"
+      }
+    ]
+  },
+  "styles": {
+    "body": {
+      "backgroundColor": "#FFFF33"
+    }
+  }
+}
+        }
+      ])
+      if (result) {
+        alert(`[${result.status}] Message sent!`)
+      } else {
+        const [majorVer, minorVer, patchVer] = (liff.getLineVersion() || "").split('.');
+
+        if (minorVer === undefined) {
+          alert('ShareTargetPicker was canceled in external browser')
+          return
+        }
+
+        if (parseInt(majorVer) >= 10 && parseInt(minorVer) >= 10 && parseInt(patchVer) > 0) {
+          alert('ShareTargetPicker was canceled in LINE app')
+        }
+      }
+    }
+    function logOut() {
+      liff.logout()
+      window.location.reload()
+    }
+    async function main() {
+      await liff.init({ liffId: "1655879041-ZBv10wGB" })
+      if (liff.isLoggedIn()) {
+        document.getElementById("btnShare").style.display = "block"
+        if (!liff.isInClient()) {
+          document.getElementById("btnLogOut").style.display = "block"
+        }
+      } else {
+        document.getElementById("btnLogin").style.display = "block"
+      }
+    }
+    main()
+  </script>
+</body>
+</html>
